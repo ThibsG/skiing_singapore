@@ -10,6 +10,9 @@ namespace SkiMountain
 
 class Viewer;
 
+/// Path representation
+typedef std::vector<uint16_t> Path;
+
 /**
  * @class Mountain
  * Class representation of the mountain
@@ -28,6 +31,7 @@ class Mountain
       uint16_t col;
       uint16_t value;
 
+      Number(uint16_t r, uint16_t c);
       Number(uint16_t r, uint16_t c, uint16_t v);
       bool operator==(const Number& n) const;
     };
@@ -38,7 +42,7 @@ class Mountain
     inline uint16_t cols() const;
     inline uint16_t rows() const;
 
-    std::list<Number> neighbors(uint16_t row, uint16_t col) const;
+    std::list<Number> neighbors(const Mountain::Number& origine) const;
     Number numberAt(uint16_t row, uint16_t col) const;
 
     void clear();

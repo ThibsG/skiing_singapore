@@ -28,7 +28,7 @@ class Viewer
     {
       for(auto elt : s.longestPath())
         cout << elt << " ";
-      cout << endl;
+      cout << " with a drop of " << s.longestDrop() << endl;
     }
 };
 
@@ -92,11 +92,11 @@ bool tests()
   Mountain mountain;
   mountain.load("../map_simple.txt");
 
-  auto number = mountain.numberAt(1,2);
+  auto number = mountain.numberAt(1, 2);
   if(number.value != 9)
     return false;
 
-  auto neighbors = mountain.neighbors(1, 2);
+  auto neighbors = mountain.neighbors(number);
   if(neighbors.size() != 4)
     return false;
 

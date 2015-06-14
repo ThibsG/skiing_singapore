@@ -8,8 +8,7 @@
 namespace SkiMountain
 {
 
-/// Path representation
-typedef std::vector<uint16_t> Path;
+struct Cache;
 
 /**
  * @class Skiing
@@ -27,7 +26,7 @@ class Skiing
   private:
     Path m_longestPath;
 
-    Path discover(const Mountain& mountain, const Mountain::Number& origine);
+    Path discover(const Mountain& mountain, std::vector<std::vector<Cache>>& cache, const Mountain::Number& origin);
 };
 
 uint16_t Skiing::longestDrop() const

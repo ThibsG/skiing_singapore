@@ -3,21 +3,40 @@
 #include <algorithm>
 #include <vector>
 #include <list>
+#include <iostream>
 
 using namespace std;
 
 namespace SkiMountain
 {
 
+/**
+ * @struct Cache
+ * Cache structure to store already explored neighbors
+ */
+struct Cache
+{
+  bool isVisited;
+  Path longestPath;
+
+  Cache() :
+    isVisited(false)
+  {}
+};
+
 void Skiing::solve(const Mountain& mountain)
 {
   m_longestPath.clear();
+
+  vector<vector<Cache>> cache(mountain.rows());
+  for(auto& line : cache)
+    line.resize(mountain.cols());
 
   for(uint16_t row = 0 ; row < mountain.rows() ; ++row)
   {
     for(uint16_t col = 0 ; col < mountain.cols() ; ++col)
     {
-      Path pathFound = discover(mountain, mountain.numberAt(row, col));
+      Path pathFound = discover(mountain, cache, mountain.numberAt(row, col));
 
       if(pathFound.size() > m_longestPath.size())
       {
@@ -33,37 +52,32 @@ void Skiing::solve(const Mountain& mountain)
   }
 }
 
-Path Skiing::discover(const Mountain& mountain, const Mountain::Number& origine)
+Path Skiing::discover(const Mountain& mountain, vector<vector<Cache>>& cache, const Mountain::Number& origin)
 {
-  auto neighbors = mountain.neighbors(origine.row, origine.col);
-
-  // Non-valid neighbors removal
-  neighbors.erase(remove_if(neighbors.begin(), neighbors.end(), [=](const Mountain::Number& neighbor) {
-    return (neighbor.value >= origine.value) or (neighbor == origine);
-  }), neighbors.end());
-
-  Path path;
-  path.push_back(origine.value);
+  auto neighbors = mountain.neighbors(origin);
 
   // Stop condition (no valid neighbors)
   if(neighbors.empty())
-    return path;
+    return Path(1, origin.value);
 
   // Valid neighbors exploration
   Path best;
-  for(auto neighbor : neighbors)
+  for(const auto& neighbor : neighbors)
   {
-    // Recursive call
-    Path p = discover(mountain, neighbor);
+    Cache& c = cache[neighbor.row][neighbor.col];
+    if(not c.isVisited)
+    {
+      // Recursive call
+      c.longestPath = discover(mountain, cache, neighbor);
+      c.isVisited = true;
+    }
 
-    if(p.size() > best.size())
-      best = p;
+    if(c.longestPath.size() > best.size())
+      best = c.longestPath;
   }
 
-  path.insert(path.end(), best.begin(), best.end());
-  return path;
+  best.insert(best.begin(), origin.value);
+  return best;
 }
-
-
 
 }
