@@ -4,7 +4,7 @@ compiler :
  - g++
 
 before_install:
- - sudo apt-get install g++-4.9
+ - sudo apt-get install g++-4.8
 
 branches:
   only:
