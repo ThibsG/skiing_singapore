@@ -3,6 +3,11 @@ language: cpp
 compiler :
  - g++
 
+addons:
+  apt:
+    packages:
+      - g++-4.9
+
 branches:
   only:
     - master
