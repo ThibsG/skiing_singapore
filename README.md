@@ -1,3 +1,5 @@
+Skiing in singapore - [![Coverage Status](https://coveralls.io/repos/ThibsG/skiing_singapore/badge.svg)](https://coveralls.io/r/ThibsG/skiing_singapore)
+
 http://geeks.redmart.com/2015/01/07/skiing-in-singapore-a-coding-diversion/
 ------------------------------------------------------
 Skiing in Singapore - a coding diversion
